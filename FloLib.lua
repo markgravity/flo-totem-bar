@@ -487,6 +487,23 @@ function FloLib_ResetTimer(self, pos)
 	FloLib_OnUpdate(self);
 end
 
+-- Print contents of `tbl`, with indentation.
+-- `indent` sets the initial level of indentation.
+function tprint (tbl, indent)
+  if not indent then indent = 0 end
+  for k, v in pairs(tbl) do
+    formatting = string.rep("  ", indent) .. k .. ": "
+    if type(v) == "table" then
+      print(formatting)
+      tprint(v, indent+1)
+    elseif type(v) == 'boolean' then
+      print(formatting .. tostring(v))
+    else
+      print(formatting .. v)
+    end
+  end
+end
+
 function FloLib_OnUpdate(self)
 
 	local isActive;
@@ -497,14 +514,27 @@ function FloLib_OnUpdate(self)
 	local name, spell;
 	local i;
 
+	_, FLO_CLASS_NAME = UnitClass("player");
+	FLO_CLASS_NAME = strupper(FLO_CLASS_NAME);
+
+	local classSpells = FLO_TOTEM_SPELLS[FLO_CLASS_NAME];
+
+
 	for i=1, #self.spells do
 
 		name = self:GetName();
 		button = _G[name.."Button"..i];
+		icon = _G[name.."Button"..i.."Icon"];
 
 		spell = self.spells[i];
-
 		isActive = false;
+		isBuffable = false;
+		isBuffInRange = false;
+		if spell.buffId ~= nil then
+			local buffName = GetSpellInfo(spell.buffId);
+			isBuffable = true;
+			isBuffInRange = FloLib_UnitHasBuff("player", buffName);
+		end
 
 		if self.sharedCooldown then
 			pos = 1
@@ -535,9 +565,19 @@ function FloLib_OnUpdate(self)
 		end
 
 		if isActive then
+			icon:SetDesaturated(nil);
 			button:SetChecked(true);
+
+			if not isBuffable or isBuffInRange then
+				icon:SetVertexColor(1.0, 1.0, 1.0);
+			else
+				icon:SetVertexColor(1.0, 0.0, 0.0);
+			end
+
 		else
+			icon:SetDesaturated(1);
 			button:SetChecked(false);
+			icon:SetVertexColor(1.0, 1.0, 1.0);
 		end
 	end
 end

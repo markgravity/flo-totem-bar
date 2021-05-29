@@ -449,7 +449,6 @@ function FloTotemBar_SetupSpell(self, spell, pos)
 
 		button:SetAttribute("type", "spell");
 		button:SetAttribute("spell", spell.name);
-
 		icon:SetTexture(spellTexture);
 	end
 
@@ -464,7 +463,7 @@ function FloTotemBar_SetupSpell(self, spell, pos)
 		algo = FloTotemBar_UpdateSeal;
 	end
 
-	self.spells[pos] = { id = spell.id, name = spellName, addName = spell.addName, duration = duration, algo = algo, talented = spell.talented, talentedName = spell.talentedName };
+	self.spells[pos] = { id = spell.id, name = spellName, addName = spell.addName, duration = duration, algo = algo, talented = spell.talented, talentedName = spell.talentedName, buffId = spell.buffId };
 
 end
 

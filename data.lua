@@ -44,30 +44,30 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
 		},
 		["SHAMAN"] = {
 			["EARTH"] = {
-				{ id = 8071, duration = 120 }, -- Earth skin
+				{ id = 8071, duration = 120, buffId = 25507 }, -- Earth skin
 				{ id = 2484, duration = 45 }, -- Earth bind
 				{ id = 5730, duration = 15 }, -- Stoneclaw
-				{ id = 8075, duration = 120 }, -- Strenght of Earth
+				{ id = 8075, duration = 120, buffId = 31634 }, -- Strenght of Earth
 				{ id = 8143, duration = 120 }, -- Tremor
 			},
 			["FIRE"] = {
 				{ id = 3599, duration = 30 }, -- Searing
 				{ id = 1535, duration = 5 }, -- nova
-				{ id = 8181, duration = 120 }, -- frost resistance
+				{ id = 8181, duration = 120, buffId = 8182 }, -- frost resistance
 				{ id = 8190, duration = 20 }, -- magma
 				{ id = 8227, duration = 120 }, -- flametongue
 			},
 			["WATER"] = {
-				{ id = 5394, duration = 60 }, -- healing stream
+				{ id = 5394, duration = 60, buffId = 5672 }, -- healing stream
 				{ id = 8166, duration = 120 }, -- poison cleansing
-				{ id = 5675, duration = 60 }, -- manaspring
-				{ id = 8184, duration = 120 }, -- fire resistance
-				{ id = 8170, duration = 120 }, -- disease cleansing
-				{ id = 16190, duration = 12 } -- mana tide
+				{ id = 5675, duration = 60, buffId = 24853 }, -- manaspring
+				{ id = 8184, duration = 120, buffId = 8185 }, -- fire resistance
+				{ id = 8170, duration = 12 }, -- disease cleansing
+				{ id = 16190, duration = 12, buffId = 16191 } -- mana tide
 			},
 			["AIR"] = {
-				{ id = 8177, duration = 45 }, -- grounding
-				{ id = 10595, duration = 120 }, -- nature resistance
+				{ id = 8177, duration = 45, buffId = 8178 }, -- grounding
+				{ id = 10595, duration = 120, buffId = 10596 }, -- nature resistance
 				{ id = 8512, duration = 120 }, -- windfury
 				{ id = 6495, duration = 300 }, -- sentry
 				{ id = 15107, duration = 120 }, -- windwall
