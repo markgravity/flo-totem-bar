@@ -27,6 +27,35 @@ StaticPopupDialogs["FLOLIB_CONFIRM_RESET"] = {
 	hideOnEscape = 1,
 };
 
+StaticPopupDialogs["FLOLIB_PRESET_CREATE_CONFIRM_DELETE"] = {
+	text = FLOLIB_PRESET_CONFIRM_DELETE,
+	button1 = YES,
+	button2 = NO,
+	OnAccept = function(self)
+		FloLib_PresetDelete();
+	end,
+	timeout = 0,
+	whileDead = 1,
+	hideOnEscape = 1,
+};
+
+StaticPopupDialogs["FLOLIB_PRESET_CREATE"] = {
+	text = FLOLIB_PRESET_CREATE_MESSAGE,
+	button1 = YES,
+	button2 = NO,
+	hasEditBox = YES,
+	OnAccept = function(self)
+		local name = self.editBox:GetText();
+		if name == nil then
+			return;
+		end
+		FloLib_PresetCreate(name);
+	end,
+	timeout = 0,
+	whileDead = 1,
+	hideOnEscape = 1,
+};
+
 -- Loads LibButtonFacade
 local LBF = nil;
 if LibStub then
@@ -35,7 +64,6 @@ end
 
 -- Reset addon
 function FloLib_ResetAddon(addonName)
-
 	local dialog = StaticPopup_Show("FLOLIB_CONFIRM_RESET", addonName);
 	if dialog then
 		dialog.data = string.upper(addonName.."_OPTIONS");
@@ -66,7 +94,7 @@ end
 
 -- Hide borders on a frame
 function FloLib_HideBorders(self)
-
+	Mixin(self, BackdropTemplateMixin);
 	self:SetBackdrop(nil);
 end
 
@@ -644,6 +672,24 @@ function FloLib_BarDropDown_Initialize(frame, level, menuList)
 				UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
 			end
 
+		-- If this is the preset menu
+		elseif UIDROPDOWNMENU_MENU_VALUE == "preset_change" then
+
+				-- Add the possible values to the menu
+				local active = FLOTOTEMBAR_OPTIONS.active;
+				local presets = FLOTOTEMBAR_OPTIONS[active.spec];
+				for name, option in pairs(presets) do
+					info = UIDropDownMenu_CreateInfo();
+					info.text = name;
+					info.value = i;
+					info.func = FloLib_PresetChange;
+					info.arg1 = name;
+
+					if active.preset == name then
+						info.checked = 1;
+					end
+					UIDropDownMenu_AddButton(info, UIDROPDOWNMENU_MENU_LEVEL);
+				end
 		end
 		return;
 	end
@@ -706,6 +752,55 @@ function FloLib_BarDropDown_Initialize(frame, level, menuList)
 		info.hasOpacity = 1;
 		info.opacityFunc = FloLib_BarDropDown_SetOpacity;
 		info.cancelFunc = FloLib_BarDropDown_CancelColorSettings;
+		UIDropDownMenu_AddButton(info);
+	end
+
+
+	-- Preset
+	if bar.menuHooks then
+		info = UIDropDownMenu_CreateInfo();
+		info.text = "";
+		info.value = "blank";
+		info.isTitle = true;
+		info.func = nil;
+		UIDropDownMenu_AddButton(info);
+	end
+
+	if bar.menuHooks then
+		info = UIDropDownMenu_CreateInfo();
+		info.text = FLOLIB_PRESET;
+		info.value = "preset";
+		info.isTitle = true;
+		info.func = nil;
+		UIDropDownMenu_AddButton(info);
+	end
+
+	if bar.menuHooks then
+		info = UIDropDownMenu_CreateInfo();
+		info.text = FLOLIB_PRESET_CHANGE;
+		info.value = "preset_change";
+		info.hasArrow = 1;
+		info.func = nil;
+		UIDropDownMenu_AddButton(info);
+	end
+
+	-- Create
+	if bar.menuHooks then
+		info = UIDropDownMenu_CreateInfo();
+		info.text = FLOLIB_PRESET_CREATE;
+		info.value = "preset_create";
+		info.func = FloLib_PresetShowCreatePopup;
+		UIDropDownMenu_AddButton(info);
+	end
+
+	-- Delete Preset
+	if bar.menuHooks then
+		info = UIDropDownMenu_CreateInfo();
+		info.text = FLOLIB_PRESET_DELETE;
+		info.value = "preset_delete";
+		info.func = FloLib_PresetShowDeletePopup;
+		info.colorCode = "|cffff0000"
+		info.disabled = FLOTOTEMBAR_OPTIONS.active.preset == "Default";
 		UIDropDownMenu_AddButton(info);
 	end
 
@@ -774,6 +869,52 @@ function FloLib_UnitHasBuff(unit, name)
 		buff = UnitBuff(unit, i);
 	end
 	return false;
+end
+
+-- PRESET --
+function FloLib_PresetCreate(name)
+	local active = FLOTOTEMBAR_OPTIONS.active;
+
+	-- Preset name is existed
+	if FLOTOTEMBAR_OPTIONS[active.spec][name] ~= nil then
+		FloLib_ShowAlertPopup(FLOLIB_PRESET_NAME_EXISTED_MESSAGE);
+		return;
+	end
+
+	FLOTOTEMBAR_OPTIONS[active.spec][name] = FLOTOTEMBAR_OPTIONS[active.spec][active.preset];
+	FloLib_PresetChange(self, name);
+end
+
+function FloLib_PresetDelete()
+	local active = FLOTOTEMBAR_OPTIONS.active;
+ 	local options = {};
+
+	for name, option in pairs(FLOTOTEMBAR_OPTIONS[active.spec]) do
+		if name ~= active.preset then
+			options[name] = option;
+		end
+	end
+
+	FLOTOTEMBAR_OPTIONS[active.spec] = options;
+	FLOTOTEMBAR_OPTIONS.active.preset = "Default";
+	FloLib_PresetChange(self, "Default");
+end
+
+function FloLib_PresetShowCreatePopup(self)
+	StaticPopup_Show("FLOLIB_PRESET_CREATE");
+end
+
+function FloLib_PresetShowDeletePopup(self)
+	StaticPopup_Show("FLOLIB_PRESET_CREATE_CONFIRM_DELETE", FLOTOTEMBAR_OPTIONS.active.preset);
+end
+
+function FloLib_PresetChange(self, name)
+	FLOTOTEMBAR_OPTIONS.active.preset = name;
+	FloTotemBar_TalentGroupChanged(FLOTOTEMBAR_OPTIONS.active);
+end
+
+function FloLib_ShowAlertPopup(message)
+	StaticPopup_Show("FLOLIB_Alert", message);
 end
 
 end

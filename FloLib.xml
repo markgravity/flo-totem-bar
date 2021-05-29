@@ -13,12 +13,12 @@
 			<OnLoad>
 				local cooldown = _G[self:GetName().."Cooldown"];
 				cooldown:SetFrameLevel(cooldown:GetFrameLevel() + 2);
-				cooldown:SetScale(.83);	
+				cooldown:SetScale(.83);
 				self:RegisterForDrag("LeftButton", "RightButton");
-				self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+				self:RegisterForClicks("LeftButtonUp");
 				local normalTexture = _G[self:GetName().."NormalTexture"];
-				normalTexture:SetWidth(54);	
-				normalTexture:SetHeight(54);	
+				normalTexture:SetWidth(54);
+				normalTexture:SetHeight(54);
 			</OnLoad>
 			<OnDragStart>
 				if not InCombatLockdown() and (LOCK_ACTIONBAR ~= "1" or IsShiftKeyDown()) then

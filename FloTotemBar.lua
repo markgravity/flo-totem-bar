@@ -21,7 +21,7 @@ local _
 local ALGO_TRAP;
 
 local SHOW_WELCOME = true;
-local FLOTOTEMBAR_OPTIONS_DEFAULT = { [1] = { scale = 1, borders = true, barLayout = "1row", barSettings = {} }, active = 1 };
+local FLOTOTEMBAR_OPTIONS_DEFAULT = { [1] = { ["Default"] = { scale = 1, borders = true, barLayout = "1row", barSettings = {} } } };
 FLOTOTEMBAR_OPTIONS = FLOTOTEMBAR_OPTIONS_DEFAULT;
 local FLOTOTEMBAR_BARSETTINGS_DEFAULT = {
 	["SEAL"] = { buttonsOrder = {}, position = "auto", color = { 0.49, 0.49, 0, 0.7 }, hiddenSpells = {} },
@@ -32,7 +32,7 @@ local FLOTOTEMBAR_BARSETTINGS_DEFAULT = {
 	["AIR"] = { buttonsOrder = {}, position = "auto", color = { 0, 0, 0.99, 0.7 }, hiddenSpells = {} },
 };
 FLO_CLASS_NAME = nil;
-local ACTIVE_OPTIONS = FLOTOTEMBAR_OPTIONS[1];
+local ACTIVE_OPTIONS = FLOTOTEMBAR_OPTIONS[1]["Default"];
 
 -- Ugly
 local changingSpec = true;
@@ -50,7 +50,6 @@ end
 
 -- Executed on load, calls general set-up functions
 function FloTotemBar_OnLoad(self)
-
 	ALGO_TRAP = {
 		[1] = FloTotemBar_CheckTrapLife,
 		[2] = FloTotemBar_CheckTrapLife,
@@ -132,8 +131,8 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 
 	if event == "LEARNED_SPELL_IN_TAB" or event == "CHARACTER_POINTS_CHANGED" or event == "SPELLS_CHANGED" then
 		if not changingSpec then
-			if GetSpecialization() ~= FLOTOTEMBAR_OPTIONS.active then
-				FloTotemBar_CheckTalentGroup(GetSpecialization());
+			if GetSpecialization() ~= FLOTOTEMBAR_OPTIONS.active.spec then
+				FloTotemBar_CheckTalentGroup({ spec = GetSpecialization(), preset = "Default" });
 			else
 				FloLib_Setup(self);
 			end
@@ -175,8 +174,8 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 
 	elseif event == "PLAYER_SPECIALIZATION_CHANGED" then
 		local spec = GetSpecialization();
-		if arg1 == "player" and FLOTOTEMBAR_OPTIONS.active ~= spec then
-			FloTotemBar_TalentGroupChanged(spec);
+		if arg1 == "player" and FLOTOTEMBAR_OPTIONS.active.spec ~= spec then
+			FloTotemBar_TalentGroupChanged({ spec = spec, preset = "Default" });
 		end
 
 	elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
@@ -288,15 +287,13 @@ function FloTotemBar_CheckTalentGroup(grp)
 	local k, v;
 	changingSpec = false;
 
-	FLOTOTEMBAR_OPTIONS.active = grp;
-	ACTIVE_OPTIONS = FLOTOTEMBAR_OPTIONS[grp];
-	-- first time talent activation ?
-	if not ACTIVE_OPTIONS then
-		-- Copy primary spec options into other spec
-		FLOTOTEMBAR_OPTIONS[grp] = {};
-		FloLib_CopyPreserve(FLOTOTEMBAR_OPTIONS[1], FLOTOTEMBAR_OPTIONS[grp]);
-		ACTIVE_OPTIONS = FLOTOTEMBAR_OPTIONS[grp];
+	if grp == nil then
+		grp = { spec = 1, preset = "Default" }
 	end
+
+	FLOTOTEMBAR_OPTIONS.active = grp;
+	ACTIVE_OPTIONS = FLOTOTEMBAR_OPTIONS[grp.spec][grp.preset];
+
 	for k, v in pairs(ACTIVE_OPTIONS.barSettings) do
 		local bar = _G["FloBar"..k];
                 if bar ~= nil then

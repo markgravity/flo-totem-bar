@@ -13,6 +13,13 @@ FLOLIB_POSITION = "Position";
 FLOLIB_POSITIONS = { unlock = "Unlocked", lock = "Locked", auto = "Automatic" };
 FLOLIB_SHOWBORDERS = "Show borders";
 FLOLIB_LAYOUT = "Layout";
+FLOLIB_PRESET = "Preset";
+FLOLIB_PRESET_CHANGE = "Change";
+FLOLIB_PRESET_CREATE = "New";
+FLOLIB_PRESET_DELETE = "Delete";
+FLOLIB_PRESET_NAME_EXISTED_MESSAGE = "The preset name is existed!";
+FLOLIB_PRESET_CREATE_MESSAGE = "Preset name";
+FLOLIB_PRESET_CONFIRM_DELETE = "Are you sure you want to delete preset '%s'?";
 FLOLIB_CONFIRM_RESET = "Do you really want to reset '%s'? The interface will be reloaded.";
 
 -------------------------------------------------------------------------------
@@ -108,7 +115,7 @@ FLOLIB_SHOWBORDERS = "顯示邊框";
 FLOLIB_LAYOUT = "格式";
 FLOLIB_CONFIRM_RESET = "您真正地想要重新設置 '%s' 嗎? 介面將會重新截入。";
 FLOLIB_ACTIVATE_SPEC_1 = "啟用主要天賦配置";
-FLOLIB_ACTIVATE_SPEC_2 = "啟用第二天賦配置"; 
+FLOLIB_ACTIVATE_SPEC_2 = "啟用第二天賦配置";
 
 end
 
