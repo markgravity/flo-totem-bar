@@ -1,0 +1,30 @@
+tag 7021f9684606a9938a94e51fec7e7f10888eb06d 1.13.43-classic
+Author:	Floraline <floraline@ophiuchus.org>
+Date:	Mon Sep 28 21:29:18 2020 +0200
+
+Tagging for release
+
+commit 7c89596df2bca60267b26fad235d091cb8b9a4aa
+Author: Floraline <floraline@ophiuchus.org>
+Date:   Mon Sep 28 21:28:33 2020 +0200
+
+    update toc for classic
+
+commit 085ab5cf5b616b3368034a23a29e695c74e09dd9
+Author: Floraline <floraline@ophiuchus.org>
+Date:   Mon Sep 28 19:20:23 2020 +0200
+
+    Fix for totem duration in classic
+
+commit 4e7e7a3b300bca00452247094a5b5bededb36d89
+Author: Floraline <floraline@ophiuchus.org>
+Date:   Mon Sep 28 19:04:08 2020 +0200
+
+    Bump version
+
+commit 1fe7bc794e0515d6034637ee18c410b7ff222926
+Author: Floraline <floraline@ophiuchus.org>
+Date:   Mon Sep 28 19:03:22 2020 +0200
+
+    Error with trap destruction detection
+
