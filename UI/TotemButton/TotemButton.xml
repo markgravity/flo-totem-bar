@@ -1,0 +1,55 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this file,
+   - You can obtain one at http://mozilla.org/MPL/2.0/.  -->
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+    <CheckButton name="TotemButton" inherits="ActionButtonTemplate, SecureActionButtonTemplate" virtual="true">
+        <Size>
+            <AbsDimension x="30" y="30"/>
+        </Size>
+        <Scripts>
+            <OnLoad>
+                local cooldown = _G[self:GetName().."Cooldown"];
+                cooldown:SetFrameLevel(cooldown:GetFrameLevel() + 2);
+                cooldown:SetScale(.83);
+                self:RegisterForDrag("LeftButton", "RightButton");
+                self:RegisterForClicks("LeftButtonUp");
+                local normalTexture = _G[self:GetName().."NormalTexture"];
+                normalTexture:SetWidth(54);
+                normalTexture:SetHeight(54);
+            </OnLoad>
+            <OnDragStart>
+                if not InCombatLockdown() and (LOCK_ACTIONBAR ~= "1" or IsShiftKeyDown()) then
+                local spell = self:GetParent().spells[self:GetID()];
+                if spell then
+                local _, _, _, _, _, _, maxRankId = GetSpellInfo(GetSpellInfo(spell.id));
+                PickupSpell(maxRankId);
+                end
+                end
+            </OnDragStart>
+            <PreClick>
+                self:SetChecked(not self:GetChecked());
+            </PreClick>
+            <OnMouseUp>
+                if not self:GetAttribute("type2") then
+                FloLib_BarDropDown_Show(self:GetParent(), button);
+                end
+                FloLib_ReceiveDrag(self);
+            </OnMouseUp>
+            <OnReceiveDrag>
+                FloLib_ReceiveDrag(self, true);
+            </OnReceiveDrag>
+            <OnEnter>
+                FloLib_Button_SetTooltip(self);
+            </OnEnter>
+            <OnUpdate>
+                if GameTooltip:GetOwner() == self then
+                FloLib_Button_SetTooltip(self);
+                end
+            </OnUpdate>
+            <OnLeave>
+                GameTooltip:Hide();
+            </OnLeave>
+        </Scripts>
+    </CheckButton>
+</Ui>

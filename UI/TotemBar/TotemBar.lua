@@ -870,48 +870,6 @@ function FloLib_UnitHasBuff(unit, name)
 	return false;
 end
 
--- PRESET --
-function FloLib_PresetCreate(name)
-	local active = FLOTOTEMBAR_OPTIONS.active;
-
-	-- Preset name is existed
-	if FLOTOTEMBAR_OPTIONS[active.spec][name] ~= nil then
-		FloLib_ShowAlertPopup(FLOLIB_PRESET_NAME_EXISTED_MESSAGE);
-		return;
-	end
-
-	FLOTOTEMBAR_OPTIONS[active.spec][name] = FLOTOTEMBAR_OPTIONS_DEFAULT[1]["Default"];
-	FloLib_PresetChange(self, name);
-end
-
-function FloLib_PresetDelete()
-	local active = FLOTOTEMBAR_OPTIONS.active;
- 	local options = {};
-
-	for name, option in pairs(FLOTOTEMBAR_OPTIONS[active.spec]) do
-		if name ~= active.preset then
-			options[name] = option;
-		end
-	end
-
-	FLOTOTEMBAR_OPTIONS[active.spec] = options;
-	FLOTOTEMBAR_OPTIONS.active.preset = "Default";
-	FloLib_PresetChange(self, "Default");
-end
-
-function FloLib_PresetShowCreatePopup(self)
-	StaticPopup_Show("FLOLIB_PRESET_CREATE");
-end
-
-function FloLib_PresetShowDeletePopup(self)
-	StaticPopup_Show("FLOLIB_PRESET_CREATE_CONFIRM_DELETE", FLOTOTEMBAR_OPTIONS.active.preset);
-end
-
-function FloLib_PresetChange(self, name)
-	FLOTOTEMBAR_OPTIONS.active.preset = name;
-	FloTotemBar_TalentGroupChanged(FLOTOTEMBAR_OPTIONS.active);
-end
-
 function FloLib_ShowAlertPopup(message)
 	StaticPopup_Show("FLOLIB_Alert", message);
 end
