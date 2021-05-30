@@ -21,7 +21,7 @@ local _
 local ALGO_TRAP;
 
 local SHOW_WELCOME = true;
-local FLOTOTEMBAR_OPTIONS_DEFAULT = { [1] = { ["Default"] = { scale = 1, borders = true, barLayout = "1row", barSettings = {} } } };
+FLOTOTEMBAR_OPTIONS_DEFAULT = { [1] = { ["Default"] = { scale = 1, borders = true, barLayout = "1row", barSettings = {} } } };
 FLOTOTEMBAR_OPTIONS = FLOTOTEMBAR_OPTIONS_DEFAULT;
 local FLOTOTEMBAR_BARSETTINGS_DEFAULT = {
 	["SEAL"] = { buttonsOrder = {}, position = "auto", color = { 0.49, 0.49, 0, 0.7 }, hiddenSpells = {} },
@@ -171,6 +171,7 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 		local totemtype = self.totemtype;
 		if totemtype == "TRAP" then totemtype = "EARTH" end
 		FloLib_UpdateBindings(self, "FLOTOTEM"..totemtype);
+		FloBuffableTotemsButton_UpdateBindings(FloBuffableTotemsButton);
 
 	elseif event == "PLAYER_SPECIALIZATION_CHANGED" then
 		local spec = GetSpecialization();
@@ -598,7 +599,6 @@ function FloTotemBar_SetPosition(self, bar, mode)
 	if bar.settings then
 		local savePoints = bar.settings.position ~= mode;
 		bar.settings.position = mode;
-		DEFAULT_CHAT_FRAME:AddMessage(bar:GetName().." position "..mode);
 
 		FloTotemBar_SetBarDrag(bar, unlocked);
 

@@ -163,7 +163,6 @@ function FloLib_UpdateBindings(self, bindingPrefix)
 
 	local key1, key2, i;
 	local buttonPrefix = self:GetName().."Button";
-
 	ClearOverrideBindings(self);
 
 	for i = 1, 10 do
@@ -881,7 +880,7 @@ function FloLib_PresetCreate(name)
 		return;
 	end
 
-	FLOTOTEMBAR_OPTIONS[active.spec][name] = FLOTOTEMBAR_OPTIONS[active.spec][active.preset];
+	FLOTOTEMBAR_OPTIONS[active.spec][name] = FLOTOTEMBAR_OPTIONS_DEFAULT[1]["Default"];
 	FloLib_PresetChange(self, name);
 end
 
@@ -915,6 +914,26 @@ end
 
 function FloLib_ShowAlertPopup(message)
 	StaticPopup_Show("FLOLIB_Alert", message);
+end
+
+function FloLib_GetBuffableSpells()
+	local active = FLOTOTEMBAR_OPTIONS.active;
+  local options = FLOTOTEMBAR_OPTIONS[active.spec][active.preset];
+  local classSpells = FLO_TOTEM_SPELLS[FLO_CLASS_NAME];
+	local buffableSpells = {};
+
+  for type, spells in pairs(classSpells) do
+    for i = 1, #spells do
+      local spell = spells[i];
+      if spell.isBuff and options.barSettings[type].hiddenSpells[i] == nil then
+        local name = GetSpellInfo(spell.id);
+				spell.name = name;
+				buffableSpells[#buffableSpells+1] = spell;
+      end
+    end
+  end
+
+	return buffableSpells;
 end
 
 end

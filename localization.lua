@@ -7,6 +7,9 @@
 -------------------------------------------------------------------------------
 
 -- Bindings
+BINDING_HEADER_FLODYNAMIC = "Dynamic Bar";
+BINDING_NAME_FLOBUFFABLETOTEMSBUTTON = "Buffable Totems Button";
+
 BINDING_HEADER_FLOTOTEMEARTH = "Floraline's Earth/Trap Bar";
 BINDING_NAME_FLOTOTEMEARTHBUTTON1 = "Earth/Trap Button 1";
 BINDING_NAME_FLOTOTEMEARTHBUTTON2 = "Earth/Trap Button 2";
@@ -433,4 +436,3 @@ FLO_TOTEM_4ROWS = "4 行 - 向下";
 FLO_TOTEM_2ROWS_REVERSE = "2 行 - 向上";
 FLO_TOTEM_4ROWS_REVERSE = "4 行 - 向上";
 end
-

@@ -6,6 +6,8 @@
 	<Script file="localization.lua"/>
 	<Script file="data.lua"/>
 	<Script file="FloTotemBar.lua"/>
+	<Script file="FloBuffableTotemsButton.lua"/>
+
 
 	<Frame name="FloBarTRAP" inherits="FloBarTemplateT">
 		<Size>
@@ -49,11 +51,18 @@
 		<Anchors>
 			<Anchor point="TOPLEFT" relativeTo="UIParent" relativePoint="TOPLEFT">
 				<Offset>
-					<AbsDimension x="0" y="120"/>
+					<AbsDimension x="10" y="0"/>
 				</Offset>
 			</Anchor>
 		</Anchors>
 	</Frame>
+	<Button name="FloBuffableTotemsButton" inherits="ActionButtonTemplate, SecureActionButtonTemplate">
+		<Scripts>
+			<OnLoad>
+				FloBuffableTotemsButton_OnLoad(self);
+			</OnLoad>
+		</Scripts>
+	</Button>
 	<Frame name="FloBarFIRE" inherits="FloTotemBarTemplate">
 		<Anchors>
 			<Anchor point="TOPLEFT" relativeTo="FloBarEARTH" relativePoint="TOPRIGHT">
