@@ -30,11 +30,15 @@
 				end
 			</OnDragStart>
 			<PreClick>
-				self:SetChecked(not self:GetChecked());
+
 			</PreClick>
 			<OnMouseUp>
 				if not self:GetAttribute("type2") then
-					FloLib_BarDropDown_Show(self:GetParent(), button);
+					if IsShiftKeyDown() then
+						FloLib_BarDropDown_Show(self:GetParent(), button);
+					else
+						FloLib_ToggleSpellSelected(self:GetParent(), self:GetID())
+					end
 				end
 				FloLib_ReceiveDrag(self);
 			</OnMouseUp>

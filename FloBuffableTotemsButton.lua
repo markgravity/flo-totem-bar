@@ -23,7 +23,12 @@ function FloBuffableTotemsButton_UpdateBindings(self)
   end
 
   self:SetAttribute('type', 'macro');
-  self:SetScript("PreClick",function(self)
+  FloBuffableTotemsButton_UpdateMarcro(self);
+end
+
+
+function FloBuffableTotemsButton_UpdateMarcro(self)
+  self:SetScript("PreClick",function()
     FloBuffableTotemsButton_SetPreClick(self);
   end)
 end
