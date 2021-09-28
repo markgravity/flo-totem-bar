@@ -15,10 +15,37 @@
 				cooldown:SetFrameLevel(cooldown:GetFrameLevel() + 2);
 				cooldown:SetScale(.83);
 				self:RegisterForDrag("LeftButton", "RightButton");
-				self:RegisterForClicks("LeftButtonUp");
+				self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
 				local normalTexture = _G[self:GetName().."NormalTexture"];
 				normalTexture:SetWidth(54);
 				normalTexture:SetHeight(54);
+				self:SetScript("PreClick",function(self, button)
+					if button == "LeftButton" then
+						self:SetAttribute("type", "spell");
+					elseif button == "RightButton" then
+						self:SetAttribute("type", "");
+					end
+			  end)
+				self:SetScript("PreClick",function(self, button)
+					if button == "LeftButton" then
+						self:SetAttribute("type", "spell");
+					elseif button == "RightButton" then
+						self:SetAttribute("type", "");
+					end
+			  end)
+				self:SetScript("PostClick",function(self, button)
+					if button == "LeftButton" then
+						local parent = self:GetParent()
+						local idx = self:GetID()
+						local spell = parent.spells[idx]
+
+						if parent.settings.selectedSpell ~= spell.id then
+							self:SetChecked(false)
+						else
+							self:SetChecked(true)
+						end
+					end
+			  end)
 			</OnLoad>
 			<OnDragStart>
 				if not InCombatLockdown() and (LOCK_ACTIONBAR ~= "1" or IsShiftKeyDown()) then
@@ -36,7 +63,7 @@
 				if not self:GetAttribute("type2") then
 					if IsShiftKeyDown() then
 						FloLib_BarDropDown_Show(self:GetParent(), button);
-					else
+					elseif button == "RightButton" then
 						FloLib_ToggleSpellSelected(self:GetParent(), self:GetID())
 					end
 				end

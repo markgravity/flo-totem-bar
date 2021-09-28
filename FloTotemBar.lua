@@ -24,12 +24,12 @@ local SHOW_WELCOME = true;
 FLOTOTEMBAR_OPTIONS_DEFAULT = { [1] = { ["Default"] = { scale = 1, borders = true, barLayout = "1row", barSettings = {} } } };
 FLOTOTEMBAR_OPTIONS = FLOTOTEMBAR_OPTIONS_DEFAULT;
 local FLOTOTEMBAR_BARSETTINGS_DEFAULT = {
-    ["SEAL"] = { buttonsOrder = {}, position = "auto", color = { 0.49, 0.49, 0, 0.7 }, hiddenSpells = {}, selectedSpells = {} },
-    ["TRAP"] = { buttonsOrder = {}, position = "auto", color = { 0.49, 0.49, 0, 0.7 }, hiddenSpells = {}, selectedSpells = {} },
-    ["EARTH"] = { buttonsOrder = {}, position = "auto", color = { 0, 0.49, 0, 0.7 }, hiddenSpells = {}, selectedSpells = {} },
-    ["FIRE"] = { buttonsOrder = {}, position = "auto", color = { 0.49, 0, 0, 0.7 }, hiddenSpells = {}, selectedSpells = {} },
-    ["WATER"] = { buttonsOrder = {}, position = "auto", color = { 0, 0.49, 0.49, 0.7 }, hiddenSpells = {}, selectedSpells = {} },
-    ["AIR"] = { buttonsOrder = {}, position = "auto", color = { 0, 0, 0.99, 0.7 }, hiddenSpells = {}, selectedSpells = {} },
+    ["SEAL"] = { buttonsOrder = {}, position = "auto", color = { 0.49, 0.49, 0, 0.7 }, hiddenSpells = {}, selectedSpell = nil },
+    ["TRAP"] = { buttonsOrder = {}, position = "auto", color = { 0.49, 0.49, 0, 0.7 }, hiddenSpells = {}, selectedSpell = nil },
+    ["EARTH"] = { buttonsOrder = {}, position = "auto", color = { 0, 0.49, 0, 0.7 }, hiddenSpells = {}, selectedSpell = nil },
+    ["FIRE"] = { buttonsOrder = {}, position = "auto", color = { 0.49, 0, 0, 0.7 }, hiddenSpells = {}, selectedSpell = nil },
+    ["WATER"] = { buttonsOrder = {}, position = "auto", color = { 0, 0.49, 0.49, 0.7 }, hiddenSpells = {}, selectedSpell = nil },
+    ["AIR"] = { buttonsOrder = {}, position = "auto", color = { 0, 0, 0.99, 0.7 }, hiddenSpells = {}, selectedSpell = nil },
 };
 FLO_CLASS_NAME = nil;
 local ACTIVE_OPTIONS = FLOTOTEMBAR_OPTIONS[1]["Default"];

@@ -237,7 +237,7 @@ if not FLOLIB_VERSION or FLOLIB_VERSION < 1.41 then
 
     -- Show/hide a spell
     function FloLib_ToggleSpell(self, bar, idx)
-        bar.settings.selectedSpells[idx] = nil;
+        bar.settings.selectedSpell = nil;
 
         if bar.settings.hiddenSpells[idx] then
             bar.settings.hiddenSpells[idx] = nil;
@@ -253,33 +253,24 @@ if not FLOLIB_VERSION or FLOLIB_VERSION < 1.41 then
           return
         end
 
-        button = _G[self:GetName() .. "Button" .. idx];
-        spell = self.spells[idx]
+        local button = _G[self:GetName() .. "Button" .. idx];
+        local spell = self.spells[idx]
         if not spell.isBuff then
             return
         end
 
-        availableSpellIndex = 0
-        for i = 1, NUM_SPELL_SLOTS do
-            local button = _G[self:GetName() .. "Button" .. i];
-            button:SetChecked(false)
-            if i <= #self.availableSpells and self.availableSpells[i].id == spell.id then
-                availableSpellIndex = i
-            end
-        end
-
-        local active = FLOTOTEMBAR_OPTIONS.active
-        local totemtype = string.sub(self:GetName(), 7);
-        local selectedSpells = FLOTOTEMBAR_OPTIONS[active.spec][active.preset].barSettings[totemtype].selectedSpells
-
-        if selectedSpells[availableSpellIndex] then
-            FLOTOTEMBAR_OPTIONS[active.spec][active.preset].barSettings[totemtype].selectedSpells = {}
-            button:SetChecked(false)
+        -- It's deselect
+        if self.settings.selectedSpell == spell.id then
+            self.settings.selectedSpell = nil
         else
-            selectedSpells[availableSpellIndex] = 1;
-            button:SetChecked(true)
-        end
+          -- Uncheck all buttons
+          for i = 1, NUM_SPELL_SLOTS do
+              local button = _G[self:GetName() .. "Button" .. i];
+              button:SetChecked(false)
+          end
 
+          self.settings.selectedSpell = spell.id
+        end
         FloBuffableTotemsButton_UpdateMarcro(FloBuffableTotemsButton);
     end
 
@@ -398,8 +389,12 @@ if not FLOLIB_VERSION or FLOLIB_VERSION < 1.41 then
                         button:SetPoint("LEFT", countdown, "LEFT", 0, 0);
                     end
                     if i <= numSpells then
+                        local n = self.settings.buttonsOrder[i];
+                        local spell = self.availableSpells[n];
+
+                        -- Setup default checked state
                         button:SetChecked(false);
-                        if self.settings.selectedSpells[i] == 1 then
+                        if self.settings.selectedSpell == spell.id then
                             button:SetChecked(true);
                         end
 
@@ -414,8 +409,6 @@ if not FLOLIB_VERSION or FLOLIB_VERSION < 1.41 then
                         countdown:Hide();
                     end
                 end
-
-                FloBuffableTotemsButton_UpdateMarcro(FloBuffableTotemsButton);
             else
                 self:Hide();
             end
@@ -424,6 +417,7 @@ if not FLOLIB_VERSION or FLOLIB_VERSION < 1.41 then
         if self.OnSetup then
             self:OnSetup();
         end
+        FloBuffableTotemsButton_UpdateMarcro(FloBuffableTotemsButton);
         FloLib_UpdateState(self);
     end
 
@@ -965,7 +959,7 @@ if not FLOLIB_VERSION or FLOLIB_VERSION < 1.41 then
         for type, spells in pairs(classSpells) do
             for i = 1, #spells do
                 local spell = spells[i];
-                if spell.isBuff and options.barSettings[type].selectedSpells[i] == 1 and options.barSettings[type].hiddenSpells[i] == nil then
+                if options.barSettings[type].selectedSpell == spell.id then
                     local name = GetSpellInfo(spell.id);
                     spell.name = name;
                     buffableSpells[#buffableSpells + 1] = spell;

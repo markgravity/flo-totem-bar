@@ -38,9 +38,9 @@ function FloBuffableTotemsButton_SetPreClick(self)
   if InCombatLockdown() then
     return;
   end
-  
+
   local spells = FloLib_GetBuffableSpells();
-  local macro = "/castsequence reset=combat/10 "
+  local macro = "/castsequence reset=combat/5 "
 
   for _, spell in ipairs(spells) do
     macro = macro .. spell.name .. ","

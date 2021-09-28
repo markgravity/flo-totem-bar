@@ -56,6 +56,7 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
 				{ id = 8181, duration = 120, buffId = 8182, isBuff = true }, -- frost resistance
 				{ id = 8190, duration = 20 }, -- magma
 				{ id = 8227, duration = 120 }, -- flametongue
+				{ id = 30706, duration = 120, buffId = 30708, isBuff = true }, -- wrath
 			},
 			["WATER"] = {
 				{ id = 5394, duration = 60, buffId = 5672, isBuff = true }, -- healing stream
@@ -71,7 +72,7 @@ elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
 				{ id = 8512, duration = 120, isBuff = true }, -- windfury
 				{ id = 6495, duration = 300 }, -- sentry
 				{ id = 15107, duration = 120 }, -- windwall
-				{ id = 8835, duration = 120 }, -- grace of air
+				{ id = 8835, duration = 120, buffId = 8836, isBuff = true }, -- grace of air
 				{ id = 25908, duration = 120 }, -- tranquil air
 			}
 		},
